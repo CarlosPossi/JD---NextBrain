@@ -15,3 +15,12 @@
   Atendendo a essa problemática, a NextBrain elaborou a criação de um sistema que realize a identificação da geolocalização dos carrinhos-kits e rebocadores dentro de seu espaço fabril, posteriormente essa informações serão alocadas em um site que nos desenvolvemos, para que seus colaboradores e seu administratores tenham maior gerenciamento da fábrica. 
   Em nossa solução haverá também a presença de sensores para realização de algumas medições importantes como: velocidade e peso. Além disso contará com um sensor para identificar colisões e um botão para validar a liberação do carrinho mesmo que tenha algo em seu interior. 
   No site que nos desenvolvemos, além de informar a localização, também serão alocadas as informações geradas pelos sensores presentes nos carrinhos e rebocadores, visando melhorar o desempenho e a precisão dentro do espaço fabril.
+<br>
+<br>
+<br> 
+# :technologist: Desenvolvido por: 
+
+<h4 align="center"> 
+   
+  ![439001090_737956385176309_585528(2)](https://github.com/user-attachments/assets/caaa5b8b-de82-4c8a-bd7a-b9bd4ee91f2b) 
+</h4>
