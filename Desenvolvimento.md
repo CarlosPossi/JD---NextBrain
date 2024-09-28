@@ -28,3 +28,11 @@
   
 ![image](https://github.com/user-attachments/assets/e28311b7-5e42-46e2-a216-b7d24f10719e)
 </h4>
+<br>
+
+#  ![linguagem-de-codificacao](https://github.com/user-attachments/assets/90dd44d0-57e5-4c4c-90d2-e64999075ca1) **Linguagens utilizadas:**
+
+<h4 align="center">  
+  
+![c-](https://github.com/user-attachments/assets/a03d8310-7d33-4425-88c7-1a57c1f0f4e4) ![php](https://github.com/user-attachments/assets/02829bab-2842-4350-83d8-8cea777d76ec) ![html-5](https://github.com/user-attachments/assets/98d83337-2d34-477c-acf7-1fc85ce8fa2b)
+</h4>
