@@ -11,7 +11,7 @@
 
 <h4 align="center"> 
   
-![image](https://github.com/user-attachments/assets/f1fd1548-fa63-4929-87cd-032ff35d0175)
+![image](https://github.com/user-attachments/assets/fcfee749-184c-4155-a4cc-4dc308e3eac1)
 </h4>
 <br>
 
@@ -19,14 +19,14 @@
 
 <h4 align="center"> 
   
-![image](https://github.com/user-attachments/assets/82dba84e-c03b-4e54-b695-14eab93817cc)
+![image](https://github.com/user-attachments/assets/9a0f0384-ddbb-430e-af32-1c7ec8c7b5e0)
 </h4>
 <br>
 
 ### :diamond_shape_with_a_dot_inside: **Arquitetura dos sensores do carrinho-kit:**
 <h4 align="center">  
   
-![image](https://github.com/user-attachments/assets/e28311b7-5e42-46e2-a216-b7d24f10719e)
+![image](https://github.com/user-attachments/assets/3e0019ac-48b6-457e-966e-f460f757f7de)
 </h4>
 <br>
 
