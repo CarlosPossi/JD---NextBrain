@@ -1,6 +1,10 @@
 # ![programacao (2)](https://github.com/user-attachments/assets/1897c3da-0278-4fda-b978-36c3fd895c75) *Programação:*
 
-###  ![design-responsivo](https://github.com/user-attachments/assets/c44baed3-a157-4e7a-a9b3-7bcb798114b5) **Programação do site:**
+	
+### :desktop_computer: **Programação do site:**
+
+</h4>
+
 
 ```<?php
 session_start();
