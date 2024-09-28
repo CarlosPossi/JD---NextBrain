@@ -1196,8 +1196,429 @@ function toggleSidebar6() {
     <h4>CarroKit</h4>
    <svg class="icon_loja" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M240-200v40q0 17-11.5 28.5T200-120h-40q-17 0-28.5-11.5T120-160v-320l84-240q6-18 21.5-29t34.5-11h440q19 0 34.5 11t21.5 29l84 240v320q0 17-11.5 28.5T800-120h-40q-17 0-28.5-11.5T720-160v-40H240Zm-8-360h496l-42-120H274l-42 120Zm-32 80v200-200Zm100 160q25 0 42.5-17.5T360-380q0-25-17.5-42.5T300-440q-25 0-42.5 17.5T240-380q0 25 17.5 42.5T300-320Zm360 0q25 0 42.5-17.5T720-380q0-25-17.5-42.5T660-440q-25 0-42.5 17.5T600-380q0 25 17.5 42.5T660-320Zm-460 40h560v-200H200v200Z"/></svg>
   </div></a>
-  
-
 
 </body>
 </html>
+```
+### 🛒: *Programação do Carrinho-kit:*
+
+```
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <math.h>
+
+// Definições de SSID e senhas dos APs
+const char* ssid[] = {"Alemao", "iPhone do Fabio", "iPhone"};
+const char* password[] = {"alemao124", "fabio123", "jovem dex"};
+const int numAPs = sizeof(ssid) / sizeof(ssid[0]);
+
+// Coordenadas dos pontos de referência (exemplo)
+double y[] = {0.0, 0.0, 8.37};  // Coordenadas X dos APs 
+double x[] = {9.14, 0.0, 0.0};  // Coordenadas Y dos APs N
+
+// Parâmetros de cálculo de distância
+int RSSI_0 = -37;
+float n = 3.5; // Exponente para cálculo de distância
+
+// URL do servidor
+const char* serverUrl = "http://192.168.80.94/Site/loja/receive_carro.php";
+
+// Intervalos de tempo
+const unsigned long interval = 5000; // Intervalo de envio (em milissegundos)
+unsigned long previousMillis = 0;
+
+// Coeficientes da transformação afim
+double a = 5.642857142857143;  // Substitua pelos valores calculados
+double b = 0.0;                // Substitua pelos valores calculados
+double e = 1.0;                // Substitua pelos valores calculados
+double c = -9.285714285714286; // Substitua pelos valores calculados
+double d = -39.285714285714285;// Substitua pelos valores calculados
+double f = 630.0;              // Substitua pelos valores calculados
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.mode(WIFI_STA);
+}
+
+void loop() {
+  unsigned long currentMillis = millis();
+
+  // Verifica se é hora de enviar os dados
+  if (currentMillis - previousMillis >= interval) {
+    previousMillis = currentMillis;
+    
+    // Conectar às redes e calcular distâncias
+    float distances[numAPs] = {0};
+    if (connectToNetworks(distances)) {
+      // Conectar à rede com internet e enviar a posição
+      connectToInternetAndSendPosition(distances);
+    }
+  }
+  
+  delay(1000); // Aguarda 1 segundo antes de repetir o loop
+}
+
+bool connectToNetworks(float distances[]) {
+  bool validDistances = true;
+
+  // Tentar se conectar a cada rede para obter as distâncias
+  for (int i = 0; i < numAPs; i++) {
+    Serial.printf("Tentando conectar ao AP %d: %s...\n", i + 1, ssid[i]);
+    WiFi.begin(ssid[i], password[i]);
+
+    unsigned long startAttemptTime = millis();
+
+    while (WiFi.status() != WL_CONNECTED && millis() - startAttemptTime < 10000) {
+      delay(100);
+    }
+
+    if (WiFi.status() == WL_CONNECTED) {
+      Serial.printf("Conectado ao AP %d: %s\n", i + 1, ssid[i]);
+      distances[i] = calculateDistance(WiFi.RSSI());
+      Serial.printf("Distância do AP %d: %.2f metros\n", i + 1, distances[i]);
+
+      WiFi.disconnect();
+    } else {
+      Serial.printf("Não foi possível conectar ao AP %d: %s\n", i + 1, ssid[i]);
+      distances[i] = -1; // Marca a distância como inválida se não conseguir conectar
+    }
+  }
+
+  // Verificar se todas as distâncias são válidas
+  for (int i = 0; i < numAPs; i++) {
+    if (distances[i] <= 0) {
+      validDistances = false;
+      Serial.println("Distâncias inválidas detectadas.");
+      break;
+    }
+  }
+
+  return validDistances;
+}
+
+void connectToInternetAndSendPosition(float distances[]) {
+  WiFi.begin(ssid[0], password[0]); // Conectar à rede com internet
+
+  unsigned long startAttemptTime = millis();
+  while (WiFi.status() != WL_CONNECTED && millis() - startAttemptTime < 10000) {
+    delay(100);
+  }
+
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("Conectado à rede com internet. Enviando a posição.");
+
+    double posX, posY;
+    trilateration(distances[0], distances[1], distances[2], posX, posY);
+
+    // Converter coordenadas reais para coordenadas da matriz
+    double posMatrizX, posMatrizY;
+    convertToMatrizCoordinates(posX, posY, posMatrizX, posMatrizY);
+    
+    sendPositionToServer(posMatrizX, posMatrizY);
+  } else {
+    Serial.println("Não foi possível conectar à rede com internet.");
+  }
+
+  WiFi.disconnect(); // Desconectar após enviar os dados
+}
+
+bool checkInternetConnection() {
+  HTTPClient http;
+  http.setTimeout(5000);
+  http.begin("http://httpbin.org/get"); // Verifique com um site diferente
+
+  int httpCode = http.GET();
+  bool connected = (httpCode == 200); // Verifique se o código HTTP é 200 OK
+
+  http.end();
+  return connected;
+}
+
+void sendPositionToServer(double x, double y) {
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("Não conectado ao WiFi.");
+    return;
+  }
+
+  HTTPClient http;
+  http.begin(serverUrl);
+  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  String postData = "x=" + String(x) + "&y=" + String(y);
+  Serial.printf("Enviando dados para o servidor: %s\n", postData.c_str());
+
+  int httpResponseCode = http.POST(postData);
+  Serial.printf("Código de resposta HTTP: %d\n", httpResponseCode);
+
+  if (httpResponseCode > 0) {
+    String response = http.getString();
+    Serial.println("Resposta do servidor: " + response);
+  } else {
+    String errorMessage;
+    switch (httpResponseCode) {
+      case -1:
+        errorMessage = "Erro de conexão com o servidor.";
+        break;
+      case 404:
+        errorMessage = "Recurso não encontrado.";
+        break;
+      case 500:
+        errorMessage = "Erro interno do servidor.";
+        break;
+      default:
+        errorMessage = "Código de erro desconhecido.";
+        break;
+    }
+    Serial.printf("Erro na requisição: %d (%s)\n", httpResponseCode, errorMessage.c_str());
+  }
+
+  http.end();
+}
+
+void trilateration(double d1, double d2, double d3, double &posX, double &posY) {
+  double x1 = x[0], y1 = y[0];
+  double x2 = x[1], y2 = y[1];
+  double x3 = x[2], y3 = y[2];
+
+  double A = 2 * x2 - 2 * x1;
+  double B = 2 * y2 - 2 * y1;
+  double C = d1 * d1 - d2 * d2 - x1 * x1 + x2 * x2 - y1 * y1 + y2 * y2;
+  double D = 2 * x3 - 2 * x2;
+  double E = 2 * y3 - 2 * y2;
+  double F = d2 * d2 - d3 * d3 - x2 * x2 + x3 * x3 - y2 * y2 + y3 * y3;
+
+  double denom = E * A - B * D;
+  if (denom == 0) {
+    Serial.println("Erro: divisão por zero na trilateração.");
+    return;
+  }
+
+  posX = (C * E - F * B) / denom;
+  posY = (C * D - A * F) / (B * D - A * E);
+
+  Serial.printf("Posição estimada: x = %f, y = %f\n", posX, posY);
+}
+
+float calculateDistance(int RSSI) {
+  return pow(10, ((RSSI_0 - RSSI) / (10.0 * n)));
+}
+
+void convertToMatrizCoordinates(double posX, double posY, double &posMatrizX, double &posMatrizY) {
+  // Aplicando a transformação afim
+  posMatrizY = map (posY, 0,8,79,630);
+  posMatrizX = map (posX, 1,9,1,510);
+
+  Serial.printf("Coordenadas no Mapa Matriz: (%.2f, %.2f)\n", posMatrizX, posMatrizY);
+}
+```
+### 🚜: *Programação do Rebocador:*
+
+```
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <math.h>
+
+// Definições de SSID e senhas dos APs
+const char* ssid[] = {"Alemao", "iPhone do Fabio", "iPhone"};
+const char* password[] = {"alemao124", "fabio123", "jovem dex"};
+const int numAPs = sizeof(ssid) / sizeof(ssid[0]);
+
+// Coordenadas dos pontos de referência (exemplo)
+double y[] = {0.0, 0.0, 8.37};  // Coordenadas X dos APs 
+double x[] = {9.14, 0.0, 0.0};  // Coordenadas Y dos APs N
+
+// Parâmetros de cálculo de distância
+int RSSI_0 = -37;
+float n = 3.5; // Exponente para cálculo de distância
+
+// URL do servidor
+const char* serverUrl = "http://192.168.80.94/Site/loja/receive_positions.php";
+
+// Intervalos de tempo
+const unsigned long interval = 5000; // Intervalo de envio (em milissegundos)
+unsigned long previousMillis = 0;
+
+// Coeficientes da transformação afim
+double a = 5.642857142857143;  // Substitua pelos valores calculados
+double b = 0.0;                // Substitua pelos valores calculados
+double e = 1.0;                // Substitua pelos valores calculados
+double c = -9.285714285714286; // Substitua pelos valores calculados
+double d = -39.285714285714285;// Substitua pelos valores calculados
+double f = 630.0;              // Substitua pelos valores calculados
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.mode(WIFI_STA);
+}
+
+void loop() {
+  unsigned long currentMillis = millis();
+
+  // Verifica se é hora de enviar os dados
+  if (currentMillis - previousMillis >= interval) {
+    previousMillis = currentMillis;
+    
+    // Conectar às redes e calcular distâncias
+    float distances[numAPs] = {0};
+    if (connectToNetworks(distances)) {
+      // Conectar à rede com internet e enviar a posição
+      connectToInternetAndSendPosition(distances);
+    }
+  }
+  
+  delay(1000); // Aguarda 1 segundo antes de repetir o loop
+}
+
+bool connectToNetworks(float distances[]) {
+  bool validDistances = true;
+
+  // Tentar se conectar a cada rede para obter as distâncias
+  for (int i = 0; i < numAPs; i++) {
+    Serial.printf("Tentando conectar ao AP %d: %s...\n", i + 1, ssid[i]);
+    WiFi.begin(ssid[i], password[i]);
+
+    unsigned long startAttemptTime = millis();
+
+    while (WiFi.status() != WL_CONNECTED && millis() - startAttemptTime < 10000) {
+      delay(100);
+    }
+
+    if (WiFi.status() == WL_CONNECTED) {
+      Serial.printf("Conectado ao AP %d: %s\n", i + 1, ssid[i]);
+      distances[i] = calculateDistance(WiFi.RSSI());
+      Serial.printf("Distância do AP %d: %.2f metros\n", i + 1, distances[i]);
+
+      WiFi.disconnect();
+    } else {
+      Serial.printf("Não foi possível conectar ao AP %d: %s\n", i + 1, ssid[i]);
+      distances[i] = -1; // Marca a distância como inválida se não conseguir conectar
+    }
+  }
+
+  // Verificar se todas as distâncias são válidas
+  for (int i = 0; i < numAPs; i++) {
+    if (distances[i] <= 0) {
+      validDistances = false;
+      Serial.println("Distâncias inválidas detectadas.");
+      break;
+    }
+  }
+
+  return validDistances;
+}
+
+void connectToInternetAndSendPosition(float distances[]) {
+  WiFi.begin(ssid[0], password[0]); // Conectar à rede com internet
+
+  unsigned long startAttemptTime = millis();
+  while (WiFi.status() != WL_CONNECTED && millis() - startAttemptTime < 10000) {
+    delay(100);
+  }
+
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("Conectado à rede com internet. Enviando a posição.");
+
+    double posX, posY;
+    trilateration(distances[0], distances[1], distances[2], posX, posY);
+
+    // Converter coordenadas reais para coordenadas da matriz
+    double posMatrizX, posMatrizY;
+    convertToMatrizCoordinates(posX, posY, posMatrizX, posMatrizY);
+    
+    sendPositionToServer(posMatrizX, posMatrizY);
+  } else {
+    Serial.println("Não foi possível conectar à rede com internet.");
+  }
+
+  WiFi.disconnect(); // Desconectar após enviar os dados
+}
+
+bool checkInternetConnection() {
+  HTTPClient http;
+  http.setTimeout(5000);
+  http.begin("http://httpbin.org/get"); // Verifique com um site diferente
+
+  int httpCode = http.GET();
+  bool connected = (httpCode == 200); // Verifique se o código HTTP é 200 OK
+
+  http.end();
+  return connected;
+}
+
+void sendPositionToServer(double x, double y) {
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("Não conectado ao WiFi.");
+    return;
+  }
+
+  HTTPClient http;
+  http.begin(serverUrl);
+  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  String postData = "x=" + String(x) + "&y=" + String(y);
+  Serial.printf("Enviando dados para o servidor: %s\n", postData.c_str());
+
+  int httpResponseCode = http.POST(postData);
+  Serial.printf("Código de resposta HTTP: %d\n", httpResponseCode);
+
+  if (httpResponseCode > 0) {
+    String response = http.getString();
+    Serial.println("Resposta do servidor: " + response);
+  } else {
+    String errorMessage;
+    switch (httpResponseCode) {
+      case -1:
+        errorMessage = "Erro de conexão com o servidor.";
+        break;
+      case 404:
+        errorMessage = "Recurso não encontrado.";
+        break;
+      case 500:
+        errorMessage = "Erro interno do servidor.";
+        break;
+      default:
+        errorMessage = "Código de erro desconhecido.";
+        break;
+    }
+    Serial.printf("Erro na requisição: %d (%s)\n", httpResponseCode, errorMessage.c_str());
+  }
+
+  http.end();
+}
+
+void trilateration(double d1, double d2, double d3, double &posX, double &posY) {
+  double x1 = x[0], y1 = y[0];
+  double x2 = x[1], y2 = y[1];
+  double x3 = x[2], y3 = y[2];
+
+  double A = 2 * x2 - 2 * x1;
+  double B = 2 * y2 - 2 * y1;
+  double C = d1 * d1 - d2 * d2 - x1 * x1 + x2 * x2 - y1 * y1 + y2 * y2;
+  double D = 2 * x3 - 2 * x2;
+  double E = 2 * y3 - 2 * y2;
+  double F = d2 * d2 - d3 * d3 - x2 * x2 + x3 * x3 - y2 * y2 + y3 * y3;
+
+  double denom = E * A - B * D;
+  if (denom == 0) {
+    Serial.println("Erro: divisão por zero na trilateração.");
+    return;
+  }
+
+  posX = (C * E - F * B) / denom;
+  posY = (C * D - A * F) / (B * D - A * E);
+
+  Serial.printf("Posição estimada: x = %f, y = %f\n", posX, posY);
+}
+
+float calculateDistance(int RSSI) {
+  return pow(10, ((RSSI_0 - RSSI) / (10.0 * n)));
+}
+
+void convertToMatrizCoordinates(double posX, double posY, double &posMatrizX, double &posMatrizY) {
+  // Aplicando a transformação afim
+  posMatrizY = map (posY, 0,8,79,630);
+  posMatrizX = map (posX, 1,9,1,510);
+
+  Serial.printf("Coordenadas no Mapa Matriz: (%.2f, %.2f)\n", posMatrizX, posMatrizY);
+}
+```
