@@ -36,7 +36,7 @@ Para gerenciar e armazenar essas informações de geolocalização, utilizamos u
 <br>
 
 ## 💻  **Site:**
-Todas as informações coletadas são disponibilizadas em nosso site, onde a geolocalização é atualizada e apresentada por meio de ícones. O rebocador é representado por um "caminhãozinho" azul, enquanto o carrinho-kit aparece como um carrinho de supermercado. O site também conta com uma tela dedicada às informações dos sensores e outra para o recebimento de pedidos, indicados por quadrados verde e amarelo no canto inferior esquerdo da página. Além disso, há uma interface de login e cadastro, bem como uma seção específica para a realização de pedidos de peças, garantindo uma gestão completa e integrada das operações.
+Todas as informações coletadas são disponibilizadas em nosso site, onde a geolocalização é atualizada e apresentada por meio de ícones. O rebocador é representado por um "caminhãozinho" azul, enquanto o carrinho-kit aparece como um carrinho de supermercado. O site também conta com uma tela dedicada às informações dos sensores e outra para o recebimento de pedidos, indicados por quadrados verde e amarelo no canto inferior esquerdo da página. Além disso, há uma interface de login e cadastro, bem como uma seção específica para a realização de pedidos de peças, garantindo uma gestão completa e integrada das operações. Além disso, temos um sistema de gamificação da realização das entregas, quando o colaborador termina uma entrega eles ganha pontos que futuramente pode ser trocado por algo. 
 
 ### :scroll: **Tela de pedidos**
 <h4 align="center"> 
