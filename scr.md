@@ -1622,6 +1622,82 @@ void convertToMatrizCoordinates(double posX, double posY, double &posMatrizX, do
   Serial.printf("Coordenadas no Mapa Matriz: (%.2f, %.2f)\n", posMatrizX, posMatrizY);
 }
 ```
+### :robot: *Programação dos  sensores do carrinho-kit:*
+```
+#include "HX711.h"
+#define DT 15
+#define SCK 4
+
+HX711 balanca;
+
+const int pinoSensor = 34;
+const int digitalPin = 13; 
+int botao = 23;
+
+volatile int pulseCount = 0;
+
+volatile bool batidaDetectada = false;
+float C = 38.1; 
+
+void countPulse() 
+{
+pulseCount++;
+}
+
+void detectBatida() 
+{
+batidaDetectada = true;
+}
+
+void setup() 
+{
+pinMode(pinoSensor, INPUT);
+pinMode(digitalPin, INPUT);
+pinMode(botao, INPUT_PULLUP);
+balanca.begin(DT, SCK);
+
+balanca.set_scale(+4200);
+
+attachInterrupt(digitalPinToInterrupt(digitalPin), countPulse, RISING);  
+attachInterrupt(digitalPinToInterrupt(pinoSensor), detectBatida, RISING);
+Serial.begin(9600);
+}
+
+void loop() 
+{
+int state = digitalRead (botao);
+if (state == LOW)
+{
+Serial.println ("Carrinho Liberado!");
+}
+
+noInterrupts();
+int pulses = pulseCount;
+pulseCount = 0; 
+bool batida = batidaDetectada;
+batidaDetectada = false; 
+interrupts();
+
+float vel = (((pulses * C) / 60) * 3.6 / 10);
+
+Serial.print("Velocidade: ");
+Serial.print(vel);
+Serial.println(" km/h");
+
+if (batida) 
+{
+Serial.println("Batida detectada!");
+}
+
+float peso = balanca.get_units(2);  
+Serial.print("Peso: ");
+Serial.print(peso);
+Serial.println(" kg"); 
+
+delay(1000);
+}
+```
+
 #  ![linguagem-de-codificacao](https://github.com/user-attachments/assets/90dd44d0-57e5-4c4c-90d2-e64999075ca1) **Linguagens utilizadas:**
 
 <h4 align="center">  
