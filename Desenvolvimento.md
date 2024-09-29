@@ -8,7 +8,8 @@
 </h4>
 
 ### :diamond_shape_with_a_dot_inside: **Arquitetura dos carrinhos-kits:**
-
+  Essa arquitetura demonstra o funcionamento da obtenção das distâncias dos roteadores através do RSSI deles, o ESP32 DEVKIT V4 através da programação contida nele realiza a captação do RSSI dos roteadores e realiza
+  o cálculo da trilateração desses RSSI obtidos e determina a posição atual do carrinho-kit. Logo após, ele faz um remapeamento das coordenadas reais para as coordenadas do mapa do site que desenvolvemos. Utilizamos 
 <h4 align="center"> 
   
 ![image](https://github.com/user-attachments/assets/fcfee749-184c-4155-a4cc-4dc308e3eac1)
