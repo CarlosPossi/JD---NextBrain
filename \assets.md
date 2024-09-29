@@ -59,3 +59,12 @@
   
 ![2855a5ab-a99c-4b65-be3e-89f53aa29265](https://github.com/user-attachments/assets/b4d845ba-4236-438a-902c-3bc516e45e97)
 </h4>
+<br>
+
+## ![youtube (2)](https://github.com/user-attachments/assets/72abed24-ef35-45ff-88df-ff97f14d531e) *Links dos videos (Youtube):*
+
+:earth_americas: **Geolocalização dos protótipos:**  https://www.youtube.com/watch?v=D0OfAxph4s4
+<br>
+:shopping_cart:  **Funcionamento dos sensores do protótipo:**  https://www.youtube.com/watch?v=3BgbUB3X6KY
+<br>
+🗺️ **Funcionamento do site e gamificação:**  https://www.youtube.com/watch?v=D0OfAxph4s4
