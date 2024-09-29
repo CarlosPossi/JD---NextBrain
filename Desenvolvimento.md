@@ -32,6 +32,9 @@ Três bibliotecas foram usadas nesse processo: WiFi.h, para habilitar a conectiv
 <br>
 
 ### :diamond_shape_with_a_dot_inside: **Arquitetura dos sensores do carrinho-kit:**
+Esta arquitetura descreve o funcionamento dos sensores integrados nos carrinhos-kit, que monitoram diversas condições operacionais. O sistema é composto por um sensor de velocidade, que mede a velocidade de deslocamento do carrinho; células de carga, que monitoram o peso da carga no interior do carrinho; sensor de colisão, que identifica impactos e acidentes, aumentando a segurança; e um botão, que permite a liberação do carrinho, mesmo com carga, caso o operador faça a liberação manual.
+
+Após a coleta dos dados gerados por esses sensores, o ESP32 processa e transmite essas informações ao banco de dados, garantindo que elas sejam atualizadas. Esses dados são então disponibilizados no site, permitindo o monitoramento completo das condições do carrinho, incluindo a velocidade, o peso da carga, ocorrências de colisão e ações manuais. Esse fluxo de comunicação assegura uma gestão eficiente e segura de todo o sistema.
 <h4 align="center">  
   
 ![image](https://github.com/user-attachments/assets/3e0019ac-48b6-457e-966e-f460f757f7de)
