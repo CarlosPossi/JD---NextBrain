@@ -28,12 +28,14 @@
   
 ![65309b26-fe1b-4012-a5f8-d8ac5ca4cf89](https://github.com/user-attachments/assets/eb356cac-0216-4915-ab05-dc5d446a1c62)
 </h4>
+<br>
 
 ### 💻: *Imagem da tela de login:* 
 <h4 align="center">
   
 ![cf23e693-fe65-4946-8024-cee9c575744d](https://github.com/user-attachments/assets/b8decb4e-6483-44cc-9022-f9ce80737461)
 </h4>
+<br>
 
 ### 💻: *Imagem da tela de pedido:*
 
@@ -41,6 +43,7 @@
   
   ![d6eb70f1-95aa-46f3-8552-9802e27b2fcb](https://github.com/user-attachments/assets/ac46ba02-a32a-4bbe-9b12-0802522ea379)
 </h4>
+<br>
 
 ### 💻: *Imagem do mapa:*
 
@@ -48,6 +51,7 @@
   
   ![edf061cd-346a-4347-b696-9e74e75add33](https://github.com/user-attachments/assets/b01bedd5-30aa-44f2-ac2d-8febdf7ff908)
 </h4>
+<br>
 
 ### 💻: *Imagem do site rodando em vários dispositivos:*
 
