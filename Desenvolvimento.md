@@ -8,8 +8,13 @@
 </h4>
 
 ### :diamond_shape_with_a_dot_inside: **Arquitetura dos carrinhos-kits:**
-  Essa arquitetura demonstra o funcionamento da obtenção das distâncias dos roteadores através do RSSI deles, o ESP32 DEVKIT V4 através da programação contida nele realiza a captação do RSSI dos roteadores e realiza
-  o cálculo da trilateração desses RSSI obtidos e determina a posição atual do carrinho-kit. Logo após, ele faz um remapeamento das coordenadas reais para as coordenadas do mapa do site que desenvolvemos. Utilizamos 
+
+Essa arquitetura ilustra o processo de obtenção das distâncias dos roteadores por meio do valor de RSSI captado pelo ESP32 DEVKIT V4. O dispositivo, programado para essa finalidade, coleta o RSSI dos roteadores e realiza o cálculo de trilateração para determinar a posição atual do carrinho-kit. Em seguida, ele mapeia essas coordenadas obtidas para o sistema de coordenadas do mapa que desenvolvemos para o site.
+
+Nesta etapa, utilizamos três bibliotecas principais: WiFi.h, responsável por ativar o módulo Wi-Fi do ESP32; HTTPClient.h, que gerencia a comunicação entre o ESP e o banco de dados; e math.h, utilizada para os cálculos matemáticos necessários à determinação das distâncias. Com isso, conseguimos obter as distâncias com precisão razoável e transmitir os dados coletados para o nosso banco de dados, garantindo a integração eficiente entre o hardware e o sistema de localização.
+
+
+
 <h4 align="center"> 
   
 ![image](https://github.com/user-attachments/assets/fcfee749-184c-4155-a4cc-4dc308e3eac1)
@@ -17,7 +22,9 @@
 <br>
 
 ### :diamond_shape_with_a_dot_inside: **Arquitetura dos rebocadores:**
+Essa arquitetura explica o processo de cálculo das distâncias entre o rebocador e os roteadores a partir do valor de RSSI, utilizando o ESP32 DEVKIT V4. O dispositivo é programado para captar o RSSI dos roteadores, aplicar o algoritmo de trilateração e, assim, determinar a posição do rebocador. Após essa etapa, as coordenadas calculadas são convertidas para o formato do mapa que desenvolvemos no site.
 
+Três bibliotecas foram usadas nesse processo: WiFi.h, para habilitar a conectividade Wi-Fi no ESP32; HTTPClient.h, para gerenciar a troca de informações com o banco de dados; e math.h, responsável pelos cálculos matemáticos envolvidos na determinação das distâncias. Dessa forma, foi possível obter as distâncias com boa precisão e garantir a comunicação eficiente dos dados do ESP para o banco de dados, integrando o sistema de localização de maneira eficiente.
 <h4 align="center"> 
   
 ![image](https://github.com/user-attachments/assets/9a0f0384-ddbb-430e-af32-1c7ec8c7b5e0)
