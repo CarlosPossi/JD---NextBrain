@@ -48,6 +48,6 @@ Todas as informações coletadas são disponibilizadas em nosso site, onde a geo
 ### 🖥️ **Mapa do site**
 <h4 align="center"> 
   
-![6d59fd29-b347-48d3-9fb8-31c0f9ff797b](https://github.com/user-attachments/assets/aff6cb8a-4e9d-4ace-a6d5-df6f8fd5f1bf)
+![0](https://github.com/user-attachments/assets/1ab26af3-ad1c-402a-aceb-55e97ede9867)
 </h4>
 <br>
