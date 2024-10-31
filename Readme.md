@@ -8,6 +8,12 @@
 No protótipo de localização, realizamos testes para validar e otimizar a precisão, utilizando roteadores em posições fixas e ajustando os padrões do mapa para maior consistência. Após ajustes e uma série de testes, alcançamos uma precisão com variação de cerca de um metro, conseguindo quase mitigar essa margem de erro. Esses testes ocorreram no Innovation Lab, um ambiente controlado onde pudemos observar como mudanças estruturais e materiais próximos afetam diretamente a precisão do protótipo.
 <br>
 ### b) Evidências de testes:
+*Teste demonstrado na IDE do Arduino:*
+<h4 align="center"> 
+  
+![image](https://github.com/user-attachments/assets/fec5aff0-7b30-4ddd-8ec7-7a50f97e541f)
+</h4>
+<br>
 
 ### c) Discussão dos resultados: 
 Com base nesses resultados, acreditamos que é possível aprimorar a precisão da geolocalização dos carrinhos-kits e rebocadores no espaço fabril por meio de métodos matemáticos e melhorias no hardware. Com a atualização do hardware, será possível captar o sinal RSSI dos roteadores com mais eficiência, o que aumentará a precisão da localização. Além disso, a aplicação de algoritmos matemáticos avançados contribuirá ainda mais para a precisão do sistema, otimizando o desempenho da geolocalização em ambiente fabril.
@@ -24,7 +30,12 @@ Além disso, pretendemos utilizar roteadores de maior potência, com capacidade 
 ### a) Definição da ferramenta de teste:
 Durante o desenvolvimento do protótipo do projeto, realizamos testes para medir o tempo de resposta desde a captação do sinal RSSI dos roteadores até o envio dos dados para o site que desenvolvemos. Acompanharam-se esses tempos de resposta tanto pelo monitor serial na IDE do Arduino quanto pelo armazenamento em nosso banco de dados. Com essas duas formas de validação, verificamos que o tempo de resposta médio do protótipo foi de aproximadamente 3 minutos. É importante destacar que esses testes foram feitos usando nossos roteadores pessoais; com outro tipo de roteador, os resultados podem variar.
 ### b) Evidências de testes:
-
+*Teste demonstrado na IDE do Arduino:*
+<h4 align="center"> 
+  
+![image](https://github.com/user-attachments/assets/b9aeba21-4bdc-4d9a-9035-63bb4909a9ec)
+</h4>
+<br>
 ### c) Discussão dos resultados: 
 Com o resultado obtido no tempo de resposta do nosso protótipo, consideramos o desempenho satisfatório para a captação e envio dos dados. Esse tempo atende aos requisitos do projeto em condições normais, garantindo uma comunicação eficiente entre os sensores, o sistema de armazenamento e o site. Contudo, identificamos que, em ambientes com roteadores de menor capacidade ou conexões de internet de baixa qualidade, o tempo de resposta é significativamente impactado, resultando em um atraso acima do esperado. Esse aumento ocorre devido à menor velocidade de transmissão dos dados, o que compromete a eficiência e pode limitar a precisão do sistema em situações de uso intensivo ou em locais com infraestrutura de rede instável.
 ### d) Soluções futuras: 
