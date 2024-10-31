@@ -8,6 +8,14 @@
 No protótipo de localização, realizamos testes para validar e otimizar a precisão, utilizando roteadores em posições fixas e ajustando os padrões do mapa para maior consistência. Após ajustes e uma série de testes, alcançamos uma precisão com variação de cerca de um metro, conseguindo quase mitigar essa margem de erro. Esses testes ocorreram no Innovation Lab, um ambiente controlado onde pudemos observar como mudanças estruturais e materiais próximos afetam diretamente a precisão do protótipo.
 <br>
 ### b) Evidências de testes:
+*Demonstração da variação:*
+<h4 align="center"> 
+  
+![image](https://github.com/user-attachments/assets/975304c5-b855-4620-8ae1-e5bb47289aad)
+
+</h4>
+<br>
+
 *Teste demonstrado na IDE do Arduino:*
 <h4 align="center"> 
   
