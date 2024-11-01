@@ -44,6 +44,21 @@ Durante o desenvolvimento do protótipo do projeto, realizamos testes para medir
 ![image](https://github.com/user-attachments/assets/b9aeba21-4bdc-4d9a-9035-63bb4909a9ec)
 </h4>
 <br>
+
+*Teste do recebimento das coordenadas no banco de dados (Servidor: XAMPP):*
+<h4 align="center"> 
+  
+![image](https://github.com/user-attachments/assets/8735161f-4769-42f2-ba23-75eb0c86f193)
+
+</h4>
+<br>
+
+<h4 align="center"> 
+  
+![image](https://github.com/user-attachments/assets/60873ada-b46e-4f30-8a9f-51a00c7a0ab3)
+
+</h4>
+<br>
 ### c) Discussão dos resultados: 
 Com o resultado obtido no tempo de resposta do nosso protótipo, consideramos o desempenho satisfatório para a captação e envio dos dados. Esse tempo atende aos requisitos do projeto em condições normais, garantindo uma comunicação eficiente entre os sensores, o sistema de armazenamento e o site. Contudo, identificamos que, em ambientes com roteadores de menor capacidade ou conexões de internet de baixa qualidade, o tempo de resposta é significativamente impactado, resultando em um atraso acima do esperado. Esse aumento ocorre devido à menor velocidade de transmissão dos dados, o que compromete a eficiência e pode limitar a precisão do sistema em situações de uso intensivo ou em locais com infraestrutura de rede instável.
 ### d) Soluções futuras: 
